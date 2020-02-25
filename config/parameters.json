@@ -1,4 +1,9 @@
 {
     "Credits Needed": 5.0,
-    "Points to Bid": 200
+    "Points to Bid": 200,
+    "Required Courses": [
+        "GMM",
+        "MAC",
+        "C&S"
+    ]
 }

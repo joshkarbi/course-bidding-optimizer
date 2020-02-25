@@ -4,6 +4,7 @@ import pandas as pd
 from scipy.stats import norm
 
 import json
+import re
 
 def course_with_name(name, dataframe):
     index = 0
@@ -14,21 +15,12 @@ def course_with_name(name, dataframe):
             index += 1
     return None
 
-# load in data and config
+# Load in data and config
 parameters = json.load(open("config/parameters.json", "r"))
 data = pd.read_csv("data/courses.csv") 
-
 prob = LpProblem("Course Bidding Problem",LpMaximize)
 
-# define decision variables
-bids = []
-should_bid = []
-for row in data.values:
-    bid = LpVariable(row[0], lowBound=0, upBound=parameters["Points to Bid"], cat='Integer')
-    bids.append(bid)
-    should_bid.append(LpVariable(row[0]+"-should-bid?", cat="Binary"))
-
-# define probability matrix, row is course, column is probability
+# Define probability matrix, row is course, column is probability
 probabilities = []
 row = 0
 for course in data.values:
@@ -42,32 +34,62 @@ for course in data.values:
     row += 1
 NUM_COURSES = len(probabilities)
 print("Number of possible courses: ", len(probabilities))
+print("Solving . . .")
+
+# Define decision variables
+should_bid = list() # 2D matrix of binaries binary if a course should be bid on
+row_num = 0
+for row in probabilities:
+    should_bid.append(list())
+    col_num = 0
+    for col in row:
+        should_bid[-1].append(LpVariable(str(row_num)+"-should-bid-"+str(col_num)+"?", cat="Binary") )
+        col_num += 1
+    row_num += 1
+
+# list of possible bid values (0 -> 200 for example)
+possible_bids = range(parameters["Points to Bid"])
+possible_bid_2D = []
+for i in range(NUM_COURSES):
+    possible_bid_2D.append(possible_bids)
 
 # Affinity parameters
 affinities = data['Affinity']
 
-# # "Happiness Function" to maximize
-AFFINITY = 5
-MAX_BID = 3
-prob += lpSum( [affinities[i] * bids[i] for i in range(NUM_COURSES)])
+# "Happiness Function" to maximize
+tuples_list = []
+for i in range(NUM_COURSES):
+    for j in range(parameters["Points to Bid"]):
+        tuples_list.append((i, j))
+prob += lpSum( [affinities[i] * should_bid[i][j] * probabilities[i][j] for (i, j) in tuples_list] )
 
 # Add constraints
 # 1. Maximum points available to bid with
-prob += lpSum(bids) <= parameters["Points to Bid"]
-prob += lpSum(bids) >= 0
+prob += lpSum( [should_bid[i][j] * possible_bid_2D[i][j] for (i, j) in tuples_list] ) <= parameters["Points to Bid"]
 
 # 2. Required courses must be bid on
 for req_course in parameters["Required Courses"]:
-    prob += bids[course_with_name(req_course, data)] > 0
+    prob += lpSum( [possible_bid_2D[i][j] * should_bid[course_with_name(req_course, data)][j] for (i, j) in tuples_list] ) >= 1
 
 # 3. Must bid on enough courses to graduate
-# prob += lpSum(should_bid[i] for i in range(NUM_COURSES))*0.5 == 5.0
-prob += lpSum(should_bid) == 5.0
+prob += lpSum( [should_bid[i][j] for (i, j) in tuples_list] ) >= parameters["Courses Required to Bid On"]
 
-# 4. If should not bid is selected, bid for that course must be zero, else can be anything
-for i in range(NUM_COURSES):
-    prob += -1*should_bid[i] - bids[i] >= 0
+# 4. Can only chose 1 optimal bid per course
+for row in should_bid:
+    prob += lpSum(row) <= 1
+
+# Solve the linear problem
 prob.solve()
+print("Status:", LpStatus[prob.status])
 
-for v in prob.variables():
-    print(v.name, "=", v.varValue)
+# Save result in output_files
+with open('output_files/bidding_strategy.csv', 'w+') as out_file:   
+    out_file.write("Course,Optimal Bid\n")
+    for v in prob.variables():
+        if v.varValue == 1.0:
+            print(v.name)
+            course_number = int(v.name[:v.name.find("_") ])
+            numbers =  re.findall(r'\d+', v.name)
+            out_file.write(str(data.values[course_number][0]) + "," + numbers[1] + "\n")
+
+print("Value of Objective = ", value(prob.objective))

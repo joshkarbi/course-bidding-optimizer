@@ -4,6 +4,6 @@ A linear programming model to optimize a bidding strategy for seats in universit
 ## src/server/
 Contains a description of the LP model and a flask app to return a set of optimal bids.
 
-## src/client/
-TODO: Frontend for this.
+## src/optimal-bids-client/
+WIP: Simple frontend client to grab results from the backend API.
 

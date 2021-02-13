@@ -52,7 +52,7 @@ possible_bids = range(parameters["Points to Bid"])
 possible_bid_2D = []
 for i in range(NUM_COURSES):
     possible_bid_2D.append(possible_bids)
-
+print("Possible bid decisions: ", len(possible_bid_2D[0]) * len(possible_bid_2D))
 # Affinity parameters
 affinities = data['Affinity']
 

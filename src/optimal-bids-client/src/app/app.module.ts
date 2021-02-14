@@ -9,11 +9,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule} from '@angular/material/card';
 import { CourseComponent } from './course/course.component';
 import { MatIconModule } from '@angular/material/icon';
+import { CourseListComponent } from './course-list/course-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CourseComponent
+    CourseComponent,
+    CourseListComponent
   ],
   imports: [
     BrowserModule,

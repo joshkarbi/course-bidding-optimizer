@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-course',
@@ -7,9 +7,18 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 })
 export class CourseComponent implements OnInit {
   @Input() course_number: string = "";
+  
+  minBid: number = 1;
+  maxBid: number = 100;
   credits: number = 0.5;
   affinity: number = 1;
   mandatory: boolean = false;
+
+  @Output() minBidSet = new EventEmitter<string>();
+  @Output() maxBidSet = new EventEmitter<string>();
+  @Output() creditsSet = new EventEmitter<string>();
+  @Output() affinitySet = new EventEmitter<string>();
+  
 
   constructor() { }
 
@@ -22,5 +31,20 @@ export class CourseComponent implements OnInit {
     }
 
     return value;
+  }
+
+  // Capture events from child courses - setting the parameters
+  // Events come back as strings course_number-value
+  minBidChanged(): void {
+    this.minBidSet.emit(String(this.course_number)+"-"+String(this.minBid));
+  }
+  maxBidChanged(): void {
+    this.maxBidSet.emit(String(this.course_number)+"-"+String(this.maxBid));
+  }
+  creditsChanged(): void {
+    this.creditsSet.emit(String(this.course_number)+"-"+String(this.credits));
+  }
+  affinityChanged(): void {
+    this.affinitySet.emit(String(this.course_number)+"-"+String(this.affinity));
   }
 }

@@ -4,7 +4,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 
 import {MatSliderModule} from '@angular/material/slider';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
@@ -12,7 +12,8 @@ import {MatSliderModule} from '@angular/material/slider';
     CommonModule,
     MatCardModule,
     MatSliderModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule
   ]
 })
 export class CourseModule { }

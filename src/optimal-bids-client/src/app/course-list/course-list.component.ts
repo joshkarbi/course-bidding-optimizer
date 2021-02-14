@@ -8,7 +8,14 @@ import { CourseComponent } from '../course/course.component';
   `
   <ul>
     <li *ngFor="let course of courses" >
-      <app-course course_number={{course.number}}></app-course>
+      <app-course course_number={{course.number}} class="app-course"
+        (minBidSet)="minBidSet($event)"
+        (maxBidSet)="maxBidSet($event)"
+        (creditsSet)="creditsSet($event)"
+        (affinitySet)="affinitySet($event)"
+      >
+      
+      </app-course>
     </li>
   </ul>
 
@@ -38,6 +45,27 @@ export class CourseListComponent implements OnInit {
   }
 
   getOptimalBids(): void {
+    var courses = document.querySelectorAll(".app-course");
+    courses.forEach(course => {
+      // Min bid
+      var minBid = course.children[0].children[1].children[0].children[0].children[0].children[0].nodeValue;
+      console.log(minBid);
+    });
+  }
 
+  minBidSet(bid: string): void {
+    console.log(bid);
+  }
+
+  maxBidSet(bid: string): void {
+    console.log(bid);
+  }
+
+  creditsSet(credits: string): void {
+    console.log(credits);
+  }
+
+  affinitySet(affinity: string): void {
+    console.log(affinity);
   }
 }

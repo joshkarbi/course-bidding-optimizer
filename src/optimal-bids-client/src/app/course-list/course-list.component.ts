@@ -78,7 +78,7 @@ export class CourseListComponent implements OnInit {
         required_courses.push(i);
       }
     }
-    fetch(environment.backend_optimize_endpoint + "optimize-course-bids/" + encodeURIComponent(JSON.stringify(
+    fetch(environment.backend_optimize_endpoint + "?query_params=" + encodeURIComponent(JSON.stringify(
         {
           "bid_points": this.bid_points_to_give,
           "courses_to_bid_on": this.credits_to_bid_on,

@@ -24,7 +24,7 @@ import { environment } from './../../environments/environment';
 
   <div class="bottomButtons">
     <button mat-raised-button class="calcButton" (click)=addNewCourse()> Add new course </button>
-    <button mat-raised-button class="calcButton" (click)=getOptimalBids()> Calculate optimal bids </button>
+    <button mat-raised-button class="calcButton" (click)=getOptimalBids()> {{calculate_message}} </button>
     <mat-form-field class="bidPointsSetting">
       <mat-label class="bidPointlabel">Available bid points</mat-label>
       <input type="number" [(ngModel)]="bid_points_to_give" matInput>
@@ -43,6 +43,8 @@ export class CourseListComponent implements OnInit {
   num_courses = 1;
   bid_points_to_give = 200;
   credits_to_bid_on = 1;
+  calculate_message = "Calculate optimal bids";
+  awaiting_response = false;
 
   constructNewCourse(): any {
     return {"number": this.num_courses++, "bid_points": "__", "min_bid": 0, "max_bid": 100, "credits": 0.5, "affinity": 1, "mandatory": false}
@@ -65,12 +67,17 @@ export class CourseListComponent implements OnInit {
 
   getOptimalBids(): void {
     // Construct query to backend GCP function and display result
+    if (this.awaiting_response) {
+      return;
+    }
 
     let display_res = (x: any): void => {
       console.log(x);
       for(var i = 0; i < this.courses.length; i++) {
         this.courses[Number(i)].bid_points = x.result[i];
       }
+      this.calculate_message = "Calculate optimal bids"
+      this.awaiting_response = false;
     }
     var required_courses = [];
     for(var i = 0; i < this.courses.length; i++) {
@@ -78,6 +85,13 @@ export class CourseListComponent implements OnInit {
         required_courses.push(i);
       }
     }
+
+    this.courses.forEach(course => {
+      course.bid_points = " . . . "
+    })
+    this.calculate_message = "Calculating . . ."
+
+    this.awaiting_response = true;
     fetch(environment.backend_optimize_endpoint + "?query_params=" + encodeURIComponent(JSON.stringify(
         {
           "bid_points": this.bid_points_to_give,

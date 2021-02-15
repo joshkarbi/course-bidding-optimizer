@@ -19,7 +19,7 @@ export class CourseComponent implements OnInit {
   @Output() maxBidSet = new EventEmitter<string>();
   @Output() creditsSet = new EventEmitter<string>();
   @Output() affinitySet = new EventEmitter<string>();
-  
+  @Output() mandatorySet = new EventEmitter<string>();
 
   constructor() { }
 
@@ -47,5 +47,9 @@ export class CourseComponent implements OnInit {
   }
   affinityChanged(): void {
     this.affinitySet.emit(String(this.course_number)+"-"+String(this.affinity));
+  }
+  requiredChanged(event: any): void {
+    var label = event.checked==true ? "true":"false"; 
+    this.mandatorySet.emit(String(this.course_number)+"-"+label);
   }
 }

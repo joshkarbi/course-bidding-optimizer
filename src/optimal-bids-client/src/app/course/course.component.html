@@ -4,8 +4,8 @@
     <mat-card-content>
         <div class="flex-container">
             
-            <div>
-                Min Bid
+            <div class="courseSliders">
+                Historical min bid:
                     <mat-slider 
                         thumbLabel
                         [displayWith]="formatLabel"
@@ -16,8 +16,8 @@
                         (change)="minBidChanged()">
                     </mat-slider>
             </div>
-            <div>
-                Max Bid
+            <div class="courseSliders">
+                Historical max bid:
                     <mat-slider 
                         thumbLabel
                         [displayWith]="formatLabel"
@@ -28,8 +28,8 @@
                         (change)="maxBidChanged()">
                     </mat-slider>
             </div>
-            <div>
-                Credits
+            <div class="courseSliders">
+                Credits:
                     <mat-slider 
                         thumbLabel
                         [displayWith]="formatLabel"
@@ -41,7 +41,7 @@
                         (change)="creditsChanged()">
                     </mat-slider>
             </div>
-            <div>
+            <div class="courseSliders">
                 How much you want to get into this course:
                     <mat-slider 
                         thumbLabel
@@ -53,4 +53,8 @@
                         [(ngModel)]="affinity"
                         (change)="affinityChanged()">
                     </mat-slider>
+            </div>
+
+            <div>
+                <mat-checkbox class="requiredCourse" [(ngModel)]="mandatory" (change)="requiredChanged($event)">This is a required course.</mat-checkbox>
             </div>

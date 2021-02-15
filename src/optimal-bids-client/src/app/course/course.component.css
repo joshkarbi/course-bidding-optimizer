@@ -5,7 +5,15 @@
     flex-wrap: wrap;
 }
 
+.requiredCourse{
+    margin-top: 6%;
+    margin-left: 5%;
+}
+.courseSliders {
+    margin-left: 1%;
+}
 mat-card {
     background: white;
     margin-top: 2%;
 }
+

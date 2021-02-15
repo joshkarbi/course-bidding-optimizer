@@ -83,7 +83,7 @@ def optimize(query_params):
     result = {}
     for v in prob.variables():
         if v.varValue == 1.0:
-            result[v.name] = re.findall(r'\d+', v.name)[1]
+            result[v.name.split("_")[0]] = re.findall(r'\d+', v.name)[1]
 
     print("Value of Objective = ", value(prob.objective))
 

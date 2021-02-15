@@ -1,11 +1,11 @@
 ul {
     list-style-type: none;
-    padding-left: 0;
     margin-left: 0;
 }
 
 .calcButton {
     margin-left: 1%;
+    margin-top: 2%;
 }
 
 .flex-container {
@@ -13,13 +13,8 @@ ul {
     flex-wrap: wrap;
 }
 
-.button {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-  }
+.courseContainer {
+    margin: auto;
+    margin-left: 5%;
+    margin-right: 5%;
+}

@@ -7,8 +7,7 @@ import { environment } from './../../environments/environment';
   styleUrls: ['./course-list.component.css'],
   template: 
   `
-  <ul>
-    <li *ngFor="let course of courses" >
+    <div class="courseContainer" *ngFor="let course of courses" >
       <app-course course_number={{course.number}} class="app-course"
         (minBidSet)="minBidSet($event)"
         (maxBidSet)="maxBidSet($event)"
@@ -17,15 +16,14 @@ import { environment } from './../../environments/environment';
       >
       
       </app-course>
-    </li>
-  </ul>
+    </div>
 
   <div> 
   
 
-  <div class="flex-container">
-    <button (click)=addNewCourse()> Add new course </button>
-    <button class="calcButton" (click)=getOptimalBids()> Calculate Optimal Bids </button>
+  <div class="courseContainer">
+    <button mat-raised-button (click)=addNewCourse()> Add new course </button>
+    <button mat-raised-button class="calcButton" (click)=getOptimalBids()> Calculate Optimal Bids </button>
   </div>
   `
 })

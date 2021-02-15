@@ -1,7 +1,11 @@
 body {
-    background: #D3D3D3;
+    background: lightgray;
 }
 
 head {
-    background: #D3D3D3;
+    background: lightgray;
+}
+
+html {
+    background: lightgray;
 }

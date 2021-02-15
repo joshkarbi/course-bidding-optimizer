@@ -6,5 +6,6 @@
 }
 
 mat-card {
-    background: #D3D3D3;
+    background: white;
+    margin-top: 2%;
 }

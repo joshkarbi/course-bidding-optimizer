@@ -11,6 +11,7 @@ import { CourseComponent } from './course/course.component';
 import { MatIconModule } from '@angular/material/icon';
 import { CourseListComponent } from './course-list/course-list.component';
 import { FormsModule } from '@angular/forms';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     MatSliderModule,
     BrowserAnimationsModule,
     MatCardModule,
-    FormsModule
+    FormsModule,
+    MaterialModule
   ],
   exports: [
   ],

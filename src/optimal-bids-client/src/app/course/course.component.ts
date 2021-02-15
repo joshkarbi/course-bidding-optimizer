@@ -7,7 +7,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class CourseComponent implements OnInit {
   @Input() course_number: string = "";
-  
+  @Input() bid_points: string="__";
+
   minBid: number = 1;
   maxBid: number = 100;
   credits: number = 0.5;

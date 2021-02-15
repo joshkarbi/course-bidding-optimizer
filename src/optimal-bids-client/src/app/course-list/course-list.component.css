@@ -6,6 +6,18 @@ ul {
 .calcButton {
     margin-left: 1%;
     margin-top: 2%;
+    background:white;
+    border-radius: 7px;
+}
+
+.bidPointsSetting {
+    margin-left: 1%;
+    margin-top: 2%;
+    border-top: 1%;
+    background:white;
+    border-radius: 7px;
+    padding-left: 1%;
+    padding-top: 1%;
 }
 
 .flex-container {
@@ -17,4 +29,11 @@ ul {
     margin: auto;
     margin-left: 5%;
     margin-right: 5%;
+}
+
+.bottomButtons {
+    margin-left: 5%;
+    margin-right: 5%;
+    display:flex;
+    flex-wrap: wrap;
 }

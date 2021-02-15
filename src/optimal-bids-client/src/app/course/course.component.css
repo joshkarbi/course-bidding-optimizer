@@ -4,3 +4,7 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+mat-card {
+    background: #D3D3D3;
+}

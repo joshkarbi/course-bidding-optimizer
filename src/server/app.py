@@ -3,12 +3,15 @@ GCP serverless function to return optimal bids.
 '''
 
 from flask import Flask
+from flask_cors import CORS, cross_origin
 from pulp import *
 from scipy.stats import norm
 import urllib.parse
 import json, re
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 def optimize(query_params):
     prob = LpProblem("Course Bidding Problem",LpMaximize)
@@ -87,6 +90,7 @@ def optimize(query_params):
     return result
 
 @app.route("/optimize-course-bids/<query_params>")
+@cross_origin()
 def get_optimal_bids(query_params):
     '''
     query_params is a uri-encoded json like:
@@ -101,4 +105,5 @@ def get_optimal_bids(query_params):
         }
     '''
     query = json.loads(query_params)
-    return {"api_status": "working", "query_sent": query, "result": optimize(query_params)}
+    print(query)
+    return {"api_status": "working", "query_sent": query, "result": optimize(query)}

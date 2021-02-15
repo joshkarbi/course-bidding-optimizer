@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseComponent } from '../course/course.component';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-course-list',
@@ -30,9 +31,17 @@ import { CourseComponent } from '../course/course.component';
 })
 
 export class CourseListComponent implements OnInit {
+
+  num_courses = 1;
+
+  constructNewCourse(): any {
+    return {"number": this.num_courses++, "min_bid": 0, "max_bid": 100, "credits": 0.5, "affinity": 1}
+  }
+
   courses = [
-    {"number": 1}
+    this.constructNewCourse()
   ]
+
   constructor() { }
 
   ngOnInit(): void {
@@ -40,21 +49,29 @@ export class CourseListComponent implements OnInit {
 
   addNewCourse(): void {
     this.courses.push(
-      { "number": this.courses[this.courses.length - 1].number+1 }
+      this.constructNewCourse()
     )
   }
 
   getOptimalBids(): void {
-    var courses = document.querySelectorAll(".app-course");
-    courses.forEach(course => {
-      // Min bid
-      var minBid = course.children[0].children[1].children[0].children[0].children[0].children[0].nodeValue;
-      console.log(minBid);
-    });
+    // Construct query to backend GCP function and display result
+
+    fetch(environment.backend_optimize_endpoint + "optimize-course-bids/" + encodeURIComponent(JSON.stringify(
+        {
+          "bid_points": 200,
+          "courses_to_bid_on": this.courses.length,
+          "required_courses": [],
+          "courses": this.courses
+      }
+
+      ))).then(response => response.json())
+      .then(data => console.log(data));
   }
 
   minBidSet(bid: string): void {
-    console.log(bid);
+    var course_num = Number(bid.split('-')[0]);
+    var value = Number(bid.split("-")[1]);
+    this.courses[course_num - 1].min_bid = value;
   }
 
   maxBidSet(bid: string): void {

@@ -93,7 +93,7 @@ def optimize(query_params):
 
 @app.route("/")
 @cross_origin()
-def get_optimal_bids(query_params):
+def get_optimal_bids():
     '''
     query_params is a uri-encoded json like:
         {
@@ -106,7 +106,6 @@ def get_optimal_bids(query_params):
             ]
         }
     '''
-    import pdb;pdb.set_trace()
     query = json.loads(request.args.get('query_params'))
     print(query)
     return {"api_status": "working", "query_sent": query, "result": optimize(query)}

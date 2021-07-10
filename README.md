@@ -1,7 +1,7 @@
 # Course Bidding Optimizer #
 A website that helps students optimize a bidding strategy for seats in university classes.
 
-![Alt text](/frontend/static/screenshot.png)
+![Alt text](/frontend/static/demo.gif)
 
 ## How do I run this? ##
 

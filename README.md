@@ -20,7 +20,10 @@ Backend:
 Install python3.7+ and then
 
 ```bash
-pip install -r requirements.text
+cd backend/
+virtualenv bin/
+source bin/bin/activat
+pip install -r requirements.txt
 flask run
 ```
 

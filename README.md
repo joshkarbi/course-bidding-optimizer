@@ -22,7 +22,7 @@ Install python3.7+ and then
 ```bash
 cd backend/
 virtualenv bin/
-source bin/bin/activat
+source bin/bin/activate
 pip install -r requirements.txt
 flask run
 ```
